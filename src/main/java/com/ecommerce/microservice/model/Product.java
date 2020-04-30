@@ -10,6 +10,7 @@ import javax.persistence.Id;
 import javax.validation.constraints.Min;
 
 @Entity
+@JsonFilter("productFilter")
 public class Product {
     @Id
     @GeneratedValue
