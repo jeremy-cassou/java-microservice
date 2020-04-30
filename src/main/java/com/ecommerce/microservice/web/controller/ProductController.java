@@ -18,6 +18,8 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import javax.validation.Valid;
 import java.net.URI;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @Api(description = "Rest API for manage products")
 @RestController
@@ -77,5 +79,14 @@ public class ProductController {
     @PutMapping(value = "/products")
     public void updateProduct(@RequestBody Product product) {
         productDao.save(product);
+    }
+
+    @GetMapping(value = "/AdminProducts")
+    public Map<String, Integer> getAdminProducts() {
+        List<Product> products = productDao.findAll();
+        return products.stream().collect(Collectors.toMap(
+                p -> p.toString(),
+                p -> p.getPrice() - p.getBuyingPrice()
+        ));
     }
 }
